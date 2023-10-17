@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Monitor de Certificados</title>
+  <script>
+    // Array para armazenar os certificados
+    var certificados = [];
+
+    function adicionarCertificado() {
+      var url = document.getElementById("url").value;
+      var dataExpiracao = new Date(document.getElementById("dataExpiracao").value);
+      var hoje = new Date();
+
+      if (dataExpiracao <= hoje) {
+        alert("A data de expiração deve ser futura.");
+        return;
+      }
+
+      var certificado = {
+        url: url,
+        dataExpiracao: dataExpiracao
+      };
+
+      certificados.push(certificado);
+      listarCertificados();
+    }
+
+    function listarCertificados() {
+      var lista = document.getElementById("listaCertificados");
+      lista.innerHTML = "";
+
+      for (var i = 0; i < certificados.length; i++) {
+        var certificado = certificados[i];
+        var diasRestantes = Math.ceil((certificado.dataExpiracao - new Date()) / (1000 * 60 * 60 * 24));
+
+        var item = document.createElement("li");
+        item.textContent = "Site: " + certificado.url + ", Data de Expiração: " + certificado.dataExpiracao.toDateString() + ", Dias Restantes: " + diasRestantes;
+        lista.appendChild(item);
+
+        if (diasRestantes <= 7) {
+          item.style.color = "red";
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Monitor de Certificados</h1>
+  <label for="url">URL do Site:</label>
+  <input type="text" id="url">
+  <br>
+  <label for="dataExpiracao">Data de Expiração:</label>
+  <input type="date" id="dataExpiracao">
+  <br>
+  <button onclick="adicionarCertificado()">Adicionar Certificado</button>
+  <h2>Certificados Cadastrados</h2>
+  <ul id="listaCertificados"></ul>
+</body>
+</html>
