@@ -1,59 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Monitor de Certificados</title>
-  <script>
-    // Array para armazenar os certificados
-    var certificados = [];
-
-    function adicionarCertificado() {
-      var url = document.getElementById("url").value;
-      var dataExpiracao = new Date(document.getElementById("dataExpiracao").value);
-      var hoje = new Date();
-
-      if (dataExpiracao <= hoje) {
-        alert("A data de expiração deve ser futura.");
-        return;
-      }
-
-      var certificado = {
-        url: url,
-        dataExpiracao: dataExpiracao
-      };
-
-      certificados.push(certificado);
-      listarCertificados();
-    }
-
-    function listarCertificados() {
-      var lista = document.getElementById("listaCertificados");
-      lista.innerHTML = "";
-
-      for (var i = 0; i < certificados.length; i++) {
-        var certificado = certificados[i];
-        var diasRestantes = Math.ceil((certificado.dataExpiracao - new Date()) / (1000 * 60 * 60 * 24));
-
-        var item = document.createElement("li");
-        item.textContent = "Site: " + certificado.url + ", Data de Expiração: " + certificado.dataExpiracao.toDateString() + ", Dias Restantes: " + diasRestantes;
-        lista.appendChild(item);
-
-        if (diasRestantes <= 7) {
-          item.style.color = "red";
-        }
-      }
-    }
-  </script>
+  <title>Obter Data de Expiração do Certificado</title>
 </head>
 <body>
-  <h1>Monitor de Certificados</h1>
-  <label for="url">URL do Site:</label>
-  <input type="text" id="url">
-  <br>
-  <label for="dataExpiracao">Data de Expiração:</label>
-  <input type="date" id="dataExpiracao">
-  <br>
-  <button onclick="adicionarCertificado()">Adicionar Certificado</button>
-  <h2>Certificados Cadastrados</h2>
-  <ul id="listaCertificados"></ul>
+  <script>
+    // URL do site que você deseja verificar
+    var url = "https://www.example.com"; // Substitua pela URL desejada
+
+    // Função para obter a data de validade do certificado
+    function obterDataExpiracao() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var certificate = xhr.getResponseHeader("x-ssl-cert");
+          if (certificate) {
+            var cert = new X509();
+            cert.readCertPEM(certificate);
+            var expirationDate = cert.getNotAfterUTCString();
+            console.log("Data de Expiração do Certificado:", expirationDate);
+          } else {
+            console.log("Certificado não encontrado");
+          }
+        }
+      };
+      xhr.send();
+    }
+
+    obterDataExpiracao();
+  </script>
 </body>
 </html>
