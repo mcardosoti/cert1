@@ -1,69 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Captura de Webcam e Envio por E-mail (ProtonMail)</title>
+    <title>Página Bonita</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1e72d3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Captura de Webcam</h1>
-    <video id="webcam" autoplay></video>
-    <button id="capture">Tirar Foto e Enviar por E-mail</button>
-    <canvas id="canvas" style="display: none;"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/nodemailer/6.6.3/nodemailer.min.js"></script>
-    <script>
-        const video = document.getElementById('webcam');
-        const captureButton = document.getElementById('capture');
-        const canvas = document.getElementById('canvas');
-
-        const constraints = { video: true };
-
-        navigator.mediaDevices.getUserMedia(constraints)
-            .then(function (stream) {
-                video.srcObject = stream;
-            })
-            .catch(function (error) {
-                console.error('Erro ao acessar a webcam: ', error);
-            });
-
-        captureButton.addEventListener('click', function () {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-            
-            // Configure o transporte do Nodemailer para o ProtonMail
-            const transporter = nodemailer.createTransport({
-                host: 'smtp.protonmail.com',
-                port: 465,
-                secure: true,
-                auth: {
-                    user: 'ouropratabronze@proton.me', // Seu endereço de e-mail ProtonMail
-                    pass: '?&$AXYeC4nU-u9?' // Sua senha do ProtonMail
-                }
-            });
-
-            // Configure as informações do e-mail
-            const mailOptions = {
-                from: 'ouropratabronze@proton.me',
-                to: 'kinho.mp@gmail.com,
-                subject: 'Imagem da Webcam',
-                text: 'Confira a imagem em anexo',
-                attachments: [
-                    {
-                        filename: 'imagem.jpg',
-                        content: canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ''),
-                        encoding: 'base64'
-                    }
-                ]
-            };
-
-            // Envie o e-mail
-            transporter.sendMail(mailOptions, function(error, info) {
-                if (error) {
-                    console.log('Erro ao enviar e-mail: ' + error);
-                } else {
-                    console.log('E-mail enviado com sucesso: ' + info.response);
-                }
-            });
-        });
-    </script>
+    <header>
+        <h1>Bem-Vindo à Página Bonita</h1>
+    </header>
+    <div class="container">
+        <p>Esta é uma página de exemplo criada com HTML e CSS para demonstrar um design bonito e simples.</p>
+        <p>Você pode personalizar e estilizar ainda mais esta página de acordo com suas preferências.</p>
+        <button>Clique Aqui</button>
+    </div>
 </body>
 </html>
