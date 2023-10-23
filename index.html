@@ -12,7 +12,7 @@
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
         // Inicialize o Email.js com seu User ID
-        emailjs.init('seu_user_id'); // Substitua 'seu_user_id' pelo seu User ID
+        emailjs.init('b-vJzvi_9Mwegbf48'); // Substitua 'seu_user_id' com o seu User ID do Email.js
 
         const video = document.getElementById('webcam');
         const captureButton = document.getElementById('capture');
@@ -32,7 +32,7 @@
         captureButton.addEventListener('click', function () {
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+            canvas.getContext('d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
             photo.src = canvas.toDataURL('image/jpeg');
 
             // Enviar a imagem por e-mail usando o serviço Email.js
