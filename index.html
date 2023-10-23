@@ -11,7 +11,8 @@
     <img id="photo" alt="Sua Foto">
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
-        emailjs.init('seu_user_id'); // Substitua 'seu_user_id' com o User ID do Email.js
+        // Inicialize o Email.js com seu User ID
+        emailjs.init('seu_user_id'); // Substitua 'seu_user_id' pelo seu User ID
 
         const video = document.getElementById('webcam');
         const captureButton = document.getElementById('capture');
@@ -35,7 +36,6 @@
             photo.src = canvas.toDataURL('image/jpeg');
 
             // Enviar a imagem por e-mail usando o serviço Email.js
-            //emailjs.send("service_ok0e8th","template_dejnx6u"),
             emailjs.send('service_ok0e8th', 'template_dejnx6u', {
                 image: photo.src,
             }).then(function(response) {
