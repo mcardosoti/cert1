@@ -37,7 +37,7 @@
         captureButton.addEventListener('click', function () {
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            canvas.getContext('d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+            canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
             photo.src = canvas.toDataURL('image/jpeg');
         });
 
