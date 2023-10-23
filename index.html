@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Página Bonita</title>
+    <title>Lista de Tarefas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,9 +29,19 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        p {
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
             font-size: 18px;
-            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
         }
 
         button {
@@ -50,12 +60,30 @@
 </head>
 <body>
     <header>
-        <h1>Bem-Vindo à Página Bonita</h1>
+        <h1>Lista de Tarefas</h1>
     </header>
     <div class="container">
-        <p>Esta é uma página de exemplo criada com HTML e CSS para demonstrar um design bonito e simples.</p>
-        <p>Você pode personalizar e estilizar ainda mais esta página de acordo com suas preferências.</p>
-        <button>Clique Aqui</button>
+        <ul id="taskList">
+            <li>Ler um livro</li>
+            <li>Fazer exercícios</li>
+            <li>Estudar HTML e CSS</li>
+        </ul>
+        <input type="text" id="taskInput" placeholder="Adicionar nova tarefa">
+        <button id="addTask">Adicionar Tarefa</button>
     </div>
+    <script>
+        document.getElementById("addTask").addEventListener("click", function () {
+            const taskInput = document.getElementById("taskInput");
+            const taskList = document.getElementById("taskList");
+            const newTaskText = taskInput.value;
+            
+            if (newTaskText) {
+                const newTask = document.createElement("li");
+                newTask.textContent = newTaskText;
+                taskList.appendChild(newTask);
+                taskInput.value = "";
+            }
+        });
+    </script>
 </body>
 </html>
