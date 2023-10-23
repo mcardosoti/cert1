@@ -28,22 +28,22 @@
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-
+            
             // Configure o transporte do Nodemailer para o ProtonMail
             const transporter = nodemailer.createTransport({
                 host: 'smtp.protonmail.com',
                 port: 465,
                 secure: true,
                 auth: {
-                    user: 'ouropratabronze@proton.me', // Seu endereço de e-mail ProtonMail
-                    pass: '?&$AXYeC4nU-u9?' // Sua senha do ProtonMail
+                    user: 'seu_email@protonmail.com', // Seu endereço de e-mail ProtonMail
+                    pass: 'sua_senha' // Sua senha do ProtonMail
                 }
             });
 
             // Configure as informações do e-mail
             const mailOptions = {
-                from: 'ouropratabronze@proton.me',
-                to: 'kinho.mp@gmail.com,
+                from: 'seu_email@protonmail.com',
+                to: 'destinatario@example.com',
                 subject: 'Imagem da Webcam',
                 text: 'Confira a imagem em anexo',
                 attachments: [
