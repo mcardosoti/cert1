@@ -1,14 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Captura de Webcam</title>
+    <title>Captura e Envio de Webcam</title>
 </head>
 <body>
     <h1>Captura de Webcam</h1>
     <video id="webcam" autoplay></video>
-    <button id="capture">Tirar Foto</button>
-    <canvas id="canvas"></canvas>
+    <button id="capture">Tirar Foto e Enviar</button>
+    <canvas id="canvas" style="display: none;"></canvas>
     <img id="photo" alt="Sua Foto">
-    <script src="script.js"></script>
+    <script>
+        const video = document.getElementById('webcam');
+        const captureButton = document.getElementById('capture');
+        const canvas = document.getElementById('canvas');
+        const photo = document.getElementById('photo');
+
+        const constraints = { video: true };
+
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function (stream) {
+                video.srcObject = stream;
+            })
+            .catch(function (error) {
+                console.error('Erro ao acessar a webcam: ', error);
+            });
+
+        captureButton.addEventListener('click', function () {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+            photo.src = canvas.toDataURL('image/jpeg');
+            
+            // Enviar a imagem para o servidor
+            fetch('/sendEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ imageData: photo.src }),
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log('Imagem enviada com sucesso');
+                } else {
+                    console.error('Erro ao enviar a imagem');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
