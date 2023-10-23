@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Captura e Envio de Webcam</title>
+    <title>Captura de Webcam</title>
 </head>
 <body>
     <h1>Captura de Webcam</h1>
@@ -30,22 +30,11 @@
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
             photo.src = canvas.toDataURL('image/jpeg');
-            
-            // Enviar a imagem para o servidor
-            fetch('/sendEmail', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ imageData: photo.src }),
-            })
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log('Imagem enviada com sucesso');
-                } else {
-                    console.error('Erro ao enviar a imagem');
-                }
-            });
+
+            // Converter a imagem para base64 e abrir o cliente de e-mail
+            const imageBase64 = photo.src.split(',')[1];
+            const mailtoLink = 'mailto:kinho.mp@gmail.com?subject=Assunto do E-mail&body=Corpo do E-mail&attach=data:image/jpeg;base64,' + imageBase64;
+            window.location.href = mailtoLink;
         });
     </script>
 </body>
