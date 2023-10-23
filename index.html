@@ -1,34 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Obter Data de Expiração do Certificado</title>
+    <title>Captura de Webcam</title>
 </head>
 <body>
-  <script>
-    // URL do site que você deseja verificar
-    var url = "https://softplan.com.br"; // Substitua pela URL desejada
-
-    // Função para obter a data de validade do certificado
-    function obterDataExpiracao() {
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", url, true);
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          var certificate = xhr.getResponseHeader("x-ssl-cert");
-          if (certificate) {
-            var cert = new X509();
-            cert.readCertPEM(certificate);
-            var expirationDate = cert.getNotAfterUTCString();
-            console.log("Data de Expiração do Certificado:", expirationDate);
-          } else {
-            console.log("Certificado não encontrado");
-          }
-        }
-      };
-      xhr.send();
-    }
-
-    obterDataExpiracao();
-  </script>
+    <h1>Captura de Webcam</h1>
+    <video id="webcam" autoplay></video>
+    <button id="capture">Tirar Foto</button>
+    <canvas id="canvas"></canvas>
+    <img id="photo" alt="Sua Foto">
+    <script src="script.js"></script>
 </body>
 </html>
