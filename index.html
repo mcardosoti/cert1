@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Captura e Envio de Webcam</title>
+    <title>Captura de Webcam e Envio por E-mail</title>
 </head>
 <body>
     <h1>Captura de Webcam</h1>
@@ -9,7 +9,10 @@
     <button id="capture">Tirar Foto e Enviar</button>
     <canvas id="canvas" style="display: none;"></canvas>
     <img id="photo" alt="Sua Foto">
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
+        emailjs.init('seu_user_id'); // Substitua 'seu_user_id' com o User ID do Email.js
+
         const video = document.getElementById('webcam');
         const captureButton = document.getElementById('capture');
         const canvas = document.getElementById('canvas');
@@ -32,10 +35,8 @@
             photo.src = canvas.toDataURL('image/jpeg');
 
             // Enviar a imagem por e-mail usando o serviço Email.js
-            const templateId = 'template_dejnx6u'; // Substitua com o ID do seu modelo de e-mail no Email.js
-            const serviceId = 'service_ok0e8th'; // Substitua com o ID do seu serviço no Email.js
-
-            emailjs.send(serviceId, templateId, {
+            //emailjs.send("service_ok0e8th","template_dejnx6u"),
+            emailjs.send('service_ok0e8th', 'template_dejnx6u', {
                 image: photo.src,
             }).then(function(response) {
                 console.log('E-mail enviado com sucesso:', response);
