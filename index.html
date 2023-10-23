@@ -6,23 +6,13 @@
 <body>
     <h1>Captura de Webcam</h1>
     <video id="webcam" autoplay></video>
-    <button id="capture">Tirar Foto e Enviar</button>
+    <button id="capture">Tirar Foto e Enviar por E-mail</button>
     <canvas id="canvas" style="display: none;"></canvas>
-    <img id="photo" alt="Sua Foto">
-    <form id="form">
-        <input type="submit" value="Enviar Email" id="button">
-    </form>
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nodemailer/6.6.3/nodemailer.min.js"></script>
     <script>
-        // Inicialize o Email.js com suas credenciais
-        emailjs.init('b-vJzvi_9Mwegbf48'); // Substitua 'seu_user_id' com o seu User ID do Email.js
-
         const video = document.getElementById('webcam');
         const captureButton = document.getElementById('capture');
         const canvas = document.getElementById('canvas');
-        const photo = document.getElementById('photo');
-        const form = document.getElementById('form');
-        const button = document.getElementById('button');
 
         const constraints = { video: true };
 
@@ -38,22 +28,39 @@
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-            photo.src = canvas.toDataURL('image/jpeg');
-        });
 
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            button.value = 'Enviando...';
+            // Configure o transporte do Nodemailer
+            const transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'chico.schappo@gmail.com', // Seu endereço de e-mail Gmail
+                    pass: 'chico2013' // Sua senha do Gmail ou uma senha de aplicativo se a autenticação em dois passos estiver ativada
+                }
+            });
 
-            // Enviar a imagem por e-mail usando o serviço Email.js
-            emailjs.sendForm('default_service', 'template_dejnx6u', this) // Substitua com seus valores do Email.js
-                .then(function (response) {
-                    button.value = 'Enviar Email';
-                    alert('E-mail enviado com sucesso!');
-                }, function (error) {
-                    button.value = 'Enviar Email';
-                    alert('Erro ao enviar o e-mail: ' + JSON.stringify(error));
-                });
+            // Configure as informações do e-mail
+            const mailOptions = {
+                from: 'chico.schappo@gmail.com',
+                to: 'kinho.mp@gmail.com,
+                subject: 'Imagem da Webcam',
+                text: 'Confira a imagem em anexo',
+                attachments: [
+                    {
+                        filename: 'imagem.jpg',
+                        content: canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ''),
+                        encoding: 'base64'
+                    }
+                ]
+            };
+
+            // Envie o e-mail
+            transporter.sendMail(mailOptions, function(error, info) {
+                if (error) {
+                    console.log('Erro ao enviar e-mail: ' + error);
+                } else {
+                    console.log('E-mail enviado com sucesso: ' + info.response);
+                }
+            });
         });
     </script>
 </body>
