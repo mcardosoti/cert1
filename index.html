@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Captura de Webcam e Envio por E-mail</title>
+    <title>Captura de Webcam e Envio por E-mail (ProtonMail)</title>
 </head>
 <body>
     <h1>Captura de Webcam</h1>
@@ -29,18 +29,20 @@
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 
-            // Configure o transporte do Nodemailer
+            // Configure o transporte do Nodemailer para o ProtonMail
             const transporter = nodemailer.createTransport({
-                service: 'Gmail',
+                host: 'smtp.protonmail.com',
+                port: 465,
+                secure: true,
                 auth: {
-                    user: 'chico.schappo@gmail.com', // Seu endereço de e-mail Gmail
-                    pass: 'chico2013' // Sua senha do Gmail ou uma senha de aplicativo se a autenticação em dois passos estiver ativada
+                    user: 'ouropratabronze@proton.me', // Seu endereço de e-mail ProtonMail
+                    pass: '?&$AXYeC4nU-u9?' // Sua senha do ProtonMail
                 }
             });
 
             // Configure as informações do e-mail
             const mailOptions = {
-                from: 'chico.schappo@gmail.com',
+                from: 'ouropratabronze@proton.me',
                 to: 'kinho.mp@gmail.com,
                 subject: 'Imagem da Webcam',
                 text: 'Confira a imagem em anexo',
